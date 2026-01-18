@@ -1,0 +1,5 @@
+venv/
+test_ingles.zip
+services/__pycache__
+models/__pycache__
+data/results/no_borrar_aun/*

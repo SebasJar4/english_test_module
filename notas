@@ -1,0 +1,20 @@
+Arquitectura:
+english_app/
+│
+├── app.py
+├── models/
+│   ├── question.py
+│   ├── quiz.py
+│   ├── result.py
+│
+├── services/
+│   ├── timer.py
+│   ├── storage.py
+│   ├── feedback.py
+│
+├── data/
+│   ├── questions.json
+│   └── results/           # ← histórico automático
+│
+├── requirements.txt
+
