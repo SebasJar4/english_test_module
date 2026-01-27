@@ -1,0 +1,55 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend_service
+    profiles: [frontend]
+    command: sh -c "pnpm install && pnpm dev"
+    ports:
+      - "5054:8000"
+
+    volumes:
+      - ./frontend/:/usr/local/frontend/
+    env_file: "./frontend/.env"
+    depends_on:
+      - backend
+
+  frontend_develop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend_service
+    profiles: [frontend_develop]
+    tty: true
+    stdin_open: true
+    ports:
+      - "5054:8000"
+    volumes:
+      - ./frontend/:/usr/local/frontend/
+    env_file: "./frontend/.env"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend_service
+    profiles: [backend]
+    command: sh -c "pnpm install && pnpm dev"
+    env_file: ./backend/.env
+    volumes:
+      - ./backend:/usr/local/backend
+
+  backend_develop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend_service
+    profiles: [backend_develop]
+    tty: true
+    stdin_open: true
+    ports:
+      - "5055:8000"
+    env_file: ./backend/.env
+    volumes:
+      - ./backend:/usr/local/backend

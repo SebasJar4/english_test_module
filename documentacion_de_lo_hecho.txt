@@ -1,0 +1,8 @@
+Para no descargar nada en mi maquina fisica mas que docker, inicie un contenedor: "docker run -ti node:alpine3.23 sh"
+Descargue pnpm "apk add pnpm"
+Inicie mi proyecto con "cd /usr/local && pnpm create vite@7.1.3 frontend --template react-ts"
+En mi host fisico copie a la carpeta /frontend/ todo lo que tenia dentro el docker 'docker cp "$(docker ps -q):/usr/local/frontend/." ./frontend' (tengo un docker compose y docker file en ./. )
+Edite el docker compose para hacer un volume bind a una imagen que estoy creando con el docker file para poder enlazar y editar en mi maquina fisica pero teniendo todo en el docker (para tener limpio mi pc)
+Se creo otro container donde descargamos pnpm en la misma image
+Se modifico el package y se puso que los js sean de tipo ESM en el type
+

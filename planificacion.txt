@@ -1,0 +1,58 @@
+  Contexto: Estoy aprendiendo ingles y lo estoy haciendo "autonomamente" según la consejeria de unos amigos y de gemini (ia de google), este proyecto busca hacer una pequeña plataforma local donde pueda hacer test generados por ia que recopile información como: Tiempo por pregunta, respuesta, tipo de pregunta. Con estas cosas busco que al pasarle esta informacion a la ia pueda crear un road map y ver mis debilidades en el idioma. Para hacer el desarrollo mas simple usare tecnologias que conozco como ts. En el proyecto quiero que haya un cronometro que sea visible para el usuario pro pregunta y uno general que vaya sumando el tiempo. Deseo que si la prueba es muy larga hayan pequeños descansos entre la prueba, si la prueba tiene muchas preguntas como 100, que se hagan series de 30 preguntas por ejemplo y que se puedan ajustar esas instrucciones al empezar la prueba. Quiero que la pagina se pueda recargar y no se pierda el proceso e incluso si se cierra por accidente mas, si se cierra con la X del navegador o con comandos por teclado que sante una alarma de que se quiere hacer fraude. Quiero que en la aplicacion se puedan skipear las preguntas y dejar notas en cada pregunta sobre dudas que se tenga para dar mayor contexto a la ia y a los que revisan la prueba luego de acabarla, quiero que la respuesta se de en formato json para mayor facilidad mas tambien quiero que se pueda exportar a formato TOON para dar menos tokenes a la ia.
+
+Funcionalidades que me gustaria tener:
+
+1. Que se puedan responder preguntas de seleccion multiple según sea el caso (de entre verdadero o falso hasta desde la a-f (maximo 6 minimo 2).
+2.  Que se puedan esquipear las preguntas
+3.  Que no se puedan copiar las preguntas o respuestas, no se pueda tomar pantallazos
+4.  Que si se cambia de pantalla mientras se esta presentado la prueba de una advertencia, al 3 strike se aacabe la prueba y aparezca en el json las advertencias y el tiempo que estuvo por fuera de la ventana
+5.  Que tenga temporizador por pregunta (que se ajuste o al principio de la pregunta o en el json y que este no sea obligatorio aunque si seria bueno tenerlo)
+6.  Que existan dos cronometros uno general (que tome todo el tiempo que tome la prueba con animaciones incluidas y descansos) y un cronometro General de preguntas que tome el tiempo por pregunta (sin tener encuenta las animaciones solo el tiempo de lectura y respuesta.
+7.  Que aparezca en toda la pantalla al principio de las preguntas con tiempo designado el tiempo y que empiece a contar cuando pase la animacion
+8.  Que hayan islas de descanso entre preguntas, que se puedan seleccionar al principio de la prueba al ser mayor a 20 preguntas se sugieran descansos cada 20 preguntas o dependiendo del largo de los textos a rellenar.
+9.  Que hayan preguntas donde se rellene un texto y esas preguntas cuenten como un bloque mas grande para tener encuenta dentro del sugestor de descansos y tiempo por preguntas
+
+Backend:
+El backend va a ser "server" local que almacene la información en .json y va a tener una base de datos: un json aparte que tenga informacion o metadatos de todos los otros. y reciba peticiones en un principio http head, get, post, put, delte
+
+Json:
+ 1. Json particular
+ Este json tendrá infromacion de:
+  General: {
+   title_test : string < 50 letters
+   brief_description : string < 400 letters
+   user_name : string( max < 60 letters)
+   date : date
+   hour : hour
+   success_percent : 0 <= int <= 100
+   averange_ask_time : seconds
+   number_ask : int
+  }
+  answeres: [{ 
+     id: unsigned_int_t
+    ,success: string( "true" | "false" | "skipped" ) 
+    ,answere: (option selected : string)
+    ,time: secods // tiempo que demoro en responder
+    ,anotations : string( max < 300 letters) // Questions or anythings 
+  }]
+  weak_topics: [{ "(topic : string)" : (number errors : int) }]
+  quiz: [
+    { 
+       type_ask : string( "abc" | "abc" | "fill_text" | "true_false" )
+      ,images : bool
+      ,number_images : int
+      ,topic : string < 100 letters
+      ,enunciate : string
+      ,
+    }
+  ]
+
+
+HTTP (Definition)
+El head va a tener las mismas rutas que todas las anteriores para confimar que esten activas.
+Get:
+Este va a permitir:
+1. Obtener todos los nombres de los examenes presentados, numero de ellos con fecha, numero, hora, procentaje de acierto.
+2. Obtener examen en particular (obtener toda la info)
+3. Obtener un examen en particular (info especifica)
+4. Obtener examen particular (query mas compleja)
